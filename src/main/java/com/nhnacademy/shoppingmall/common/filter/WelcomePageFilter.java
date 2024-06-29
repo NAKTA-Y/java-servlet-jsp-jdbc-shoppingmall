@@ -1,0 +1,34 @@
+package com.nhnacademy.shoppingmall.common.filter;
+
+import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Slf4j
+@WebFilter(
+        filterName = "welcomePageFilter",
+        urlPatterns = "/",
+        initParams = {
+                @WebInitParam(name = "index", value = "/index.do")
+        }
+)
+public class WelcomePageFilter extends HttpFilter {
+    private String indexPath = "/index.do";
+
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+        indexPath = config.getInitParameter("index");
+    }
+
+    @Override
+    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException{
+        //todo#9 /요청이 오면 welcome page인 index.do redirect 합니다.
+        res.sendRedirect(indexPath);
+    }
+}
